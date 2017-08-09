@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-menu mui-icon iconfont icon-geren mui-pull-right"></a>
+			<h1 class="mui-title">长飞电商平台 注册</h1>
+		</header>
+		<div class="mui-content">
+			<div class="v-logo"></div>
+			<form class="mui-input-group bz-bb pl20 pr20 v-login" >
+				<div class="v-login-radius">
+					<div class="mui-input-row">
+						<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					</div>
+					<div class="mui-input-row">
+						<input id='password' type="password" class="mui-input" style="width: 70%;"  placeholder="图片验证码">
+						<a class="v-yzm">图片验证码</a>
+					</div>
+					<div class="mui-input-row">
+						<input id='password' type="password" class="mui-input" style="width: 70%;"  placeholder="请输入短信验证码">
+						<a class="v-yzm">短信验证码</a>
+					</div>
+					<div class="mui-input-row mui-password">
+						<input type="password" class="mui-input-password fz14"  placeholder="请输入密码">
+					</div>
+				</div>	
+				<div class="mui-input-row mui-checkbox mui-left v-checkbox mt10">
+					<label>我已阅读并同意<a class="c-h-i">《用户使用协议》</a></label>
+					<input name="checkbox1" value="Item 3" type="checkbox" >
+				</div>
+			</form>
+			<div class="mui-content-padded bz-bb pl10 pr10 mt5-i">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary  bg-btn fz14">立即注册</button>
+				<div class="mui-pull-right fz12">
+					已注册，<a id='forgetPassword' class="fz12 c-h-i">立即登录</a>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					var settings = app.getSettings();
+					var regButton = doc.getElementById('reg');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					var emailBox = doc.getElementById('email');
+					regButton.addEventListener('tap', function(event) {
+						var regInfo = {
+							account: accountBox.value,
+							password: passwordBox.value,
+							email: emailBox.value
+						};
+						var passwordConfirm = passwordConfirmBox.value;
+						if (passwordConfirm != regInfo.password) {
+							plus.nativeUI.toast('密码两次输入不一致');
+							return;
+						}
+						app.reg(regInfo, function(err) {
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							plus.nativeUI.toast('注册成功');
+							/*
+							 * 注意：
+							 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
+							 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
+							 */
+							plus.webview.getLaunchWebview().show("pop-in",200,function () {
+								plus.webview.currentWebview().close("none");
+							});
+							//若启动页不是登录页，则需通过如下方式打开登录页
+//							$.openWindow({
+//								url: 'login.html',
+//								id: 'login',
+//								show: {
+//									aniShow: 'pop-in'
+//								}
+//							});
+						});
+					});
+				});
+			}(mui, document));
+		mui('.mui-input-group').on('change', 'input', function() {
+			var value = this.checked?"true":"false";
+//			this.previousElementSibling.innerText = "checked："+value;
+		});
+		
+	/** 
+		 * 参数较验 
+		 * 
+		 * */
+		var verification = { 
+		  stop : false, //倒计时 
+		  //验证手机号 
+		  phone : function (tel, id) { 
+		  	console.log(112)
+		    if ("" == tel || !tel) { 
+		      mui.toast('手机号不可以为空!'); 
+		    } else { 
+		      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/; 
+		      //验证规则 
+		      if (reg.test(tel)) return true; 
+		      mui.toast("手机号错误!"); 
+		    } 
+		    document.getElementById(id).focus(); 
+		    return false; 
+		  }, 
+		  
+		  //验证密码(密码只能由数字和字母组成) 
+		  password : function (w, id) { 
+		    if ("" == w || !w) { 
+		      mui.toast('请输入密码!'); 
+		    } else if (w.length < 6) { 
+		      mui.toast('密码至少大于等于6位!'); 
+		    } else if (w.length > 20) { 
+		      mui.toast('密码不能超过20位!'); 
+		    } else if (w) { 
+		      var reg = /^[0-9a-zA-Z]+$/; 
+		      if (reg.test(w)) return true; 
+		      mui.toast("密码只能由数字和字母组成"); 
+		    } 
+		    document.getElementById(id).focus(); 
+		    return false; 
+		  }, 
+		  
+		  //验证码倒计时 
+		  code : function (tel, btn, type) { 
+		    var that = this, 
+		      tel = $.trim(tel); 
+		    if (!this.phone(tel, 'userTel')) return false; 
+		    if (true == that.stop) return false; //防止重复点击 
+		    that.stop = true; 
+		  
+		    var btn = $("#"+btn); 
+		    btn.attr("disabled", true).text("正在发送"); 
+		    var _no = 60; 
+		    var time = setInterval(function () { 
+		      _no--; 
+		      btn.text(_no + "秒后重发"); 
+		      if (_no == 0) { 
+		        //btn.attr("disabled", false).text("获取验证码"); 
+		        btn.removeAttr('disabled').text("重新获取验证码"); 
+		        that.stop = false; 
+		        _no = 60; 
+		        clearInterval(time); 
+		      } 
+		    }, 1000); 
+		  
+		    var url = "/Home/User/sendVerifyCode.html"; 
+		    $.post(url, { 
+		      toNumber: tel, 
+		      type:type 
+		    }, function (result) { 
+		      mui.toast(result.info); 
+		      if (200 != result.status) { 
+		        btn.removeAttr('disabled').text("获取验证码"); 
+		        that.stop = false; 
+		        _no = 60; 
+		        clearInterval(time); 
+		      } 
+		    }, 'json'); 
+		  } 
+		}; 
+		verification.phone();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,113 @@
+@import "basis";
+@import url(http://at.alicdn.com/t/font_yd962qighyiltyb9.css);
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+html {
+  color: @color-ordinary;
+}
+body {
+  font-family: 'PingFangSC-Regular','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Microsoft YaHei','\\5FAE\8F6F\96C5\9ED1','Arial','sans-serif','Droid Sans Fallback','Helvetica';
+  line-height: 1.5;
+  font-size: 14px;
+  letter-spacing: -0.15px;
+}
+a {
+  color: @color-ordinary;
+  text-decoration: none;
+}
+a:hover, a:active {
+  color: @color-prompt;
+}
+.bg-btn{
+    background: @btn-bg;
+}
+.v-header{
+    height: 50px;
+    opacity: 0.8;
+    background: #FFFFFF;
+    .mui-title{
+        line-height: 50px;
+        font-size: 15px;
+        color: #333333;
+        letter-spacing: -0.16px;
+    }
+}
+.v-logo{
+    .wh(100%,36px);
+     background-size: 180px 36px;
+     background-position: center;
+     background-repeat: no-repeat;
+    .bg-image('logo');
+    .mt(30px);.mb(30px);
+}
+.v-login{
+    background-color: inherit;
+    &:before,&:after{
+        display: none;
+    }
+    .v-login-radius{
+        background: @white;
+        .border-radius(10px);
+        .mui-input-row{
+            &:after{
+                right: 15px;
+            }
+            .mui-input{
+                font-size: 14px;
+                color: @color-black;
+            }
+            .v-yzm{
+                display: inline-block;
+                font-size: 14px;
+                color: #407FE8;
+            }
+        }
+        .mui-input-row:last-child:after{
+            display: none;
+        }
+    }
+}
+
+.v-caption{
+    position: absolute;
+    bottom: 50px;
+    left: 0px;
+    text-align: center;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    .line{
+       display: inline-block;  
+       width: 60px;  
+       .border-1px(@input-bor);
+       &:after{
+           bottom: 3px;
+       }   
+    }
+    .txt{
+       color:@color-secondary;  
+       vertical-align: middle; 
+    }
+}
+
+.mui-password span{
+    .pr15;
+}
+.v-checkbox{
+    input[type='checkbox']{
+        left: 0!important;
+    }
+    label{
+        .pl(30px)!important;
+    }
+    &:after{
+        display: none;
+    }
+}
